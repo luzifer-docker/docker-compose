@@ -1,0 +1,22 @@
+#!/bin/bash
+set -euxo pipefail
+
+build_requirements=(
+	build-base
+	libffi-dev
+	openssl-dev
+)
+
+run_requirements=(
+	libffi
+	openssl
+)
+
+apk --no-cache add \
+	"${build_requirements[@]}" \
+	"${run_requirements[@]}"
+
+pip install --no-cache-dir -r /opt/setup/requirements.txt
+
+apk --no-cache del \
+	"${build_requirements[@]}"
