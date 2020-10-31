@@ -34,6 +34,10 @@ fi
 echo "Fetching latest version number of docker-compose"
 
 COMPOSE_VERSION=$(curl -sSL https://pypi.python.org/pypi/docker-compose/json | ./jq -r .info.version)
+[[ -n $COMPOSE_VERSION ]] || {
+	echo "Empty version found"
+	exit 1
+}
 
 if (git tag -l ${COMPOSE_VERSION} | grep -q ${COMPOSE_VERSION}); then
 	echo "/!\\ Already got a tag for version ${COMPOSE_VERSION}, stopping now"
